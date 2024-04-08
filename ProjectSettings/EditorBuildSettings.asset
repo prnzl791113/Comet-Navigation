@@ -8,9 +8,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 4755b35b590504809a7525fd2109c2e2
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/locationGetter.unity
     guid: b87cd57f35424474dbe6bff3bd27a600
+  - enabled: 1
+    path: Assets/Scenes/UIScene.unity
+    guid: b3c8c7797f99b47a2a2497b53ed734d2
   m_configObjects:
     Niantic.Lightship.AR.LightshipSettings: {fileID: 11400000, guid: cb43529197b9e43aea1a17a7854f3d65,
       type: 2}
