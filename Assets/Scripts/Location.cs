@@ -4,36 +4,30 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Linq;
+using Niantic.Experimental.Lightship.AR.WorldPositioning;
+using UnityEngine.XR.ARFoundation;
 
 public class Location : MonoBehaviour
 {
     // Start is called before the first frame update
-    public TextMeshProUGUI info;
-    string last;
+    [SerializeField] private ARCameraManager _arCameraManager;
+    [SerializeField] private UnityEngine.UI.Image _compassImage;
+
+    [SerializeField] private TextMeshProUGUI _coordinatesText;
+
+    private ARWorldPositioningCameraHelper _cameraHelper;
 
     void Start()
     {
-        if (!Input.location.isEnabledByUser)
-        {
-            return;
-        }
-        last = "";
-
-        Input.location.Start(1f, 1f);
+        _cameraHelper = _arCameraManager.GetComponent<ARWorldPositioningCameraHelper>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-        info.text = Input.location.lastData.latitude.ToString()+Input.location.lastData.longitude;
-        ExecuteAfterDelay(5);
-    }
-    IEnumerator ExecuteAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
+        float heading = _cameraHelper.TrueHeading;
+        _compassImage.rectTransform.rotation = Quaternion.Euler(0, 0, heading);
 
-        // Code to execute after the delay
-        Debug.Log("Code executed after 5 seconds.");
+        _coordinatesText.text = "Latitude: " + _cameraHelper.Latitude + "\nLongitude: " + _cameraHelper.Longitude;
     }
 }

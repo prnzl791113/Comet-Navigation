@@ -808,6 +808,7 @@ PlayerSettings:
   webGLMemoryGeometricGrowthCap: 96
   webGLPowerPreference: 2
   scriptingDefineSymbols:
+    Standalone: NIANTIC_LIGHTSHIP_AR_LOADER_ENABLED
     iPhone: UNITY_XR_ARKIT_LOADER_ENABLED;NIANTIC_LIGHTSHIP_AR_LOADER_ENABLED
   additionalCompilerArguments: {}
   platformArchitecture: {}
