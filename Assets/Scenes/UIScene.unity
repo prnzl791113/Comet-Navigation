@@ -374,7 +374,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -578, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &573538441
@@ -526,10 +526,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 906534021}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0005340576, y: -0.0001487732}
-  m_SizeDelta: {x: -0.00094604, y: -0.000053406}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 170.99947, y: -34.00015}
+  m_SizeDelta: {x: 341.99905, y: 67.99995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &608089168
 MonoBehaviour:
@@ -654,7 +654,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 665235541}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -2.1547942}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -664,8 +664,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -57.10437, y: -2327.5798}
-  m_SizeDelta: {x: 582.4922, y: 68.2694}
+  m_AnchoredPosition: {x: -416.9, y: -2331}
+  m_SizeDelta: {x: 582, y: 69}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &665235543
 MonoBehaviour:
@@ -839,8 +839,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 267.1549, y: -3393.7769}
-  m_SizeDelta: {x: 258.7991, y: 81.8521}
+  m_AnchoredPosition: {x: 12.2, y: -2330}
+  m_SizeDelta: {x: 258.7991, y: 69}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &712228096
 MonoBehaviour:
@@ -1043,7 +1043,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 906534020}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -2.1547942}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1053,7 +1053,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -521, y: -2327}
+  m_AnchoredPosition: {x: -636, y: 168}
   m_SizeDelta: {x: 342.2126, y: 68.2694}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &906534022
@@ -1386,8 +1386,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _arCameraManager: {fileID: 2043173678}
-  _compassImage: {fileID: 1045455515}
+  compassImage: {fileID: 1045455515}
   _coordinatesText: {fileID: 1308547618}
+  latlon: {fileID: 665235545}
+  sub: {fileID: 712228098}
 --- !u!850595691 &1147300343
 LightingSettings:
   m_ObjectHideFlags: 0
