@@ -23,6 +23,19 @@ MonoBehaviour:
   _unityLogLevel: 3
   _fileLogLevel: 5
   _stdoutLogLevel: 5
+  _lightshipSimulationParams:
+    _environmentPrefab: {fileID: 0}
+    _useZBufferDepth: 1
+    _useLightshipPersistentAnchor: 0
+    _simulationPersistentAnchorParams:
+      m_minimumAnchorDiscoveryTimeSeconds: 1
+      m_maximumAnchorDiscoveryTimeSeconds: 2
+      m_applyTranslationalOffset: 0
+      m_translationalOffsetSeverityMeters: 0.05
+      m_applyRotationalOffset: 0
+      m_rotationalOffsetSeverityDegrees: 1
+      m_surfaceAnchorFailure: 0
+      m_trackingStateReason: 0
   _devicePlaybackSettings:
     _usePlayback: 0
     _playbackDatasetPath: 

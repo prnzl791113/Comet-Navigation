@@ -664,7 +664,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -416.9, y: -2331}
+  m_AnchoredPosition: {x: -361, y: -2331}
   m_SizeDelta: {x: 582, y: 69}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &665235543
@@ -839,7 +839,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 12.2, y: -2330}
+  m_AnchoredPosition: {x: 68.09999, y: -2330}
   m_SizeDelta: {x: 258.7991, y: 69}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &712228096
@@ -937,6 +937,7 @@ GameObject:
   - component: {fileID: 788431276}
   - component: {fileID: 788431275}
   - component: {fileID: 788431274}
+  - component: {fileID: 788431278}
   m_Layer: 0
   m_Name: XR Origin (XR Rig)
   m_TagString: Untagged
@@ -1017,6 +1018,20 @@ MonoBehaviour:
   m_CameraFloorOffsetObject: {fileID: 973507450}
   m_RequestedTrackingOriginMode: 0
   m_CameraYOffset: 1.1176
+--- !u!114 &788431278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 788431272}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64177fd34c058443c9f43ae59563ce2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultAnchorGameobject: {fileID: 3771660788490516927, guid: 18139525c249347a1b3ccbc9754ec500,
+    type: 3}
 --- !u!1 &906534020
 GameObject:
   m_ObjectHideFlags: 0
@@ -1344,6 +1359,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1127199133}
   - component: {fileID: 1127199134}
+  - component: {fileID: 1127199135}
   m_Layer: 0
   m_Name: LOC
   m_TagString: Untagged
@@ -1390,6 +1406,30 @@ MonoBehaviour:
   _coordinatesText: {fileID: 1308547618}
   latlon: {fileID: 665235545}
   sub: {fileID: 712228098}
+  destlat: 0
+  destlon: 0
+--- !u!114 &1127199135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127199131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66110c9f07fd1444c828bedd536fd53c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _arCameraManager: {fileID: 2043173678}
+  _xrOrigin: {fileID: 788431277}
+  _compassImage: {fileID: 1045455515}
+  currLevel: 4
+  cube: {fileID: 6280089485296631662, guid: 78210022c89f5457297e0ca36ac31dab, type: 3}
+  currlat: 32.986252
+  currlon: -96.750603
+  destlat: 32.986362
+  destlon: -96.749863
+  destLevel: 4
 --- !u!850595691 &1147300343
 LightingSettings:
   m_ObjectHideFlags: 0
