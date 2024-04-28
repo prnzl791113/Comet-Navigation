@@ -90,6 +90,7 @@ public class MapMover : MonoBehaviour
 
     IEnumerator GetCoordinates(Action onReceived)
     {
+        Debug.LogFormat("Making a request from {0}", $"https://api.concept3d.com/wayfinding/?map=1772&v2=true&toLat={destlat}&toLng={destlon}&toLevel={destLevel}&currentLevel=2&stamp=MEnBfBYK&fromLevel={currLevel}&fromLat={currlat}&fromLng={currlon}&key=0001085cc708b9cef47080f064612ca5");
         using (UnityWebRequest www = UnityWebRequest.Get($"https://api.concept3d.com/wayfinding/?map=1772&v2=true&toLat={destlat}&toLng={destlon}&toLevel={destLevel}&currentLevel=2&stamp=MEnBfBYK&fromLevel={currLevel}&fromLat={currlat}&fromLng={currlon}&key=0001085cc708b9cef47080f064612ca5"))
         {
             yield return www.Send();
@@ -100,17 +101,17 @@ public class MapMover : MonoBehaviour
             }
             else
             {
-                Debug.Log("Got text!");
+                Debug.Log("Got text in route call!");
                 // Show results as text
                 json = www.downloadHandler.text;
                 Debug.Log(json);
 
                 Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(json);
-                Debug.Log("This is reached aagiashas");
-                myDeserializedClass.fullPath.ForEach(delegate (List<float> coord)
+                Debug.Log("Route call: Finished deserializing");
+                myDeserializedClass.fullPath.ForEach(delegate (List<double> coord)
                 {
                     Debug.LogFormat("{0}, {1}", coord.ElementAt(0), coord.ElementAt(1));
-                    coordinates.Append(new Vector2(coord.ElementAt(1), coord.ElementAt(0)));
+                    coordinates.Append(new Vector2((float)coord.ElementAt(1), (float)coord.ElementAt(0)));
                 });
 
                 Debug.Log("finished getting coordinates");
@@ -152,7 +153,7 @@ public class MapMover : MonoBehaviour
             }
             else
             {
-                Debug.Log("Got text!");
+                Debug.Log("Got text in autocomplete!");
                 json = www.downloadHandler.text;
                 Debug.Log(json);
    
@@ -193,29 +194,31 @@ public class MapMover : MonoBehaviour
 }
 
 public class Root
-{
-    public List<List<float>> fullPath { get; set; }
-    public string formattedDuration { get; set; }
-    public double distance { get; set; }
-    public List<Route> route { get; set; }
-    public object parking { get; set; }
-    public string status { get; set; }
-    public string stamp { get; set; }
-    public List<List<double>> bbox { get; set; }
-}
+    {
+        public List<List<double>> fullPath { get; set; }
+        public string formattedDuration { get; set; }
+        public double distance { get; set; }
+        public List<Route> route { get; set; }
+        public object parking { get; set; }
+        public string status { get; set; }
+        public string stamp { get; set; }
+        public List<List<double>> bbox { get; set; }
+    }
 
-public class Route
-{
-    public string action { get; set; }
-    public double angle { get; set; }
-    public string code { get; set; }
-    public List<List<double>> bbox { get; set; }
-    public double distance { get; set; }
-    public int level { get; set; }
-    public List<List<double>> route { get; set; }
-    public List<List<double>> routeOther { get; set; }
-    public string type { get; set; }
-}
+    public class Route
+    {
+        public string action { get; set; }
+        public double angle { get; set; }
+        public string code { get; set; }
+        public List<List<double>> bbox { get; set; }
+        public double distance { get; set; }
+        public object level { get; set; }
+        public List<List<double>> route { get; set; }
+        public List<List<double>> routeOther { get; set; }
+        public string type { get; set; }
+        public int? fromLevel { get; set; }
+        public int? toLevel { get; set; }
+    }
 
 
 public class Media
