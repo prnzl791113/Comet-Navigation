@@ -1358,7 +1358,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1127199133}
-  - component: {fileID: 1127199134}
   - component: {fileID: 1127199135}
   m_Layer: 0
   m_Name: LOC
@@ -1389,25 +1388,6 @@ Transform:
   - {fileID: 1045455514}
   m_Father: {fileID: 1507330629}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1127199134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1127199131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f60c2f6c45eb45138e9b18876404e47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _arCameraManager: {fileID: 2043173678}
-  compassImage: {fileID: 1045455515}
-  _coordinatesText: {fileID: 1308547618}
-  latlon: {fileID: 665235545}
-  sub: {fileID: 712228098}
-  destlat: 0
-  destlon: 0
 --- !u!114 &1127199135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1424,12 +1404,10 @@ MonoBehaviour:
   _xrOrigin: {fileID: 788431277}
   _compassImage: {fileID: 1045455515}
   currLevel: 4
+  inpfield: {fileID: 665235545}
+  coordinatesText: {fileID: 1308547618}
+  sub: {fileID: 712228098}
   cube: {fileID: 6280089485296631662, guid: 78210022c89f5457297e0ca36ac31dab, type: 3}
-  currlat: 32.986252
-  currlon: -96.750603
-  destlat: 32.986362
-  destlon: -96.749863
-  destLevel: 4
 --- !u!850595691 &1147300343
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -1655,7 +1633,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -180.52487, y: 0, z: -275.802, w: 0}
+  m_margin: {x: 5.1894073, y: 0, z: -0.16281128, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -1685,8 +1663,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5455602}
   m_AnchorMax: {x: 0.5, y: 0.5455602}
-  m_AnchoredPosition: {x: -239.74542, y: -1101.6533}
-  m_SizeDelta: {x: 200, y: 52}
+  m_AnchoredPosition: {x: -234.85825, y: -1098.721}
+  m_SizeDelta: {x: 702.406, y: 46.1353}
   m_Pivot: {x: 0.4999999, y: 0.5000012}
 --- !u!1 &1507330625
 GameObject:

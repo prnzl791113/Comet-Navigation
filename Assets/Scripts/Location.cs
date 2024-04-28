@@ -86,10 +86,10 @@ public class Location : MonoBehaviour
             Debug.Log("Weong ");
         }
         Debug.Log("Reacehed heere 2");
-        apiurl = string.Format("https://api.openrouteservice.org/v2/directions/walking-foot?api_key=5b3ce3597851110001cf6248f4413af4ad3a425fad1005afdba293d2&start={0},{1}&end={2},{3}", devicePosition.x, devicePosition.y, destlat, destlon);
+        //apiurl = string.Format("https://api.openrouteservice.org/v2/directions/walking-foot?api_key=5b3ce3597851110001cf6248f4413af4ad3a425fad1005afdba293d2&start={0},{1}&end={2},{3}", devicePosition.x, devicePosition.y, destlat, destlon);
         //utdmapapi = string.Format("https://api.concept3d.com/wayfinding/?map=1772&v2=true&toLat={0}&toLng={1}&toLevel=0&currentLevel=0&stamp=MEkLV4YJ&fromLevel=2&fromLat={2}&fromLng={3}&key=0001085cc708b9cef47080f064612ca5", destlat, destlon, devicePosition.x, devicePosition.y);
 
-        StartCoroutine(apicall());
+        //StartCoroutine(apicall());
         Debug.Log("The first api call ends here");
         //StartCoroutine(routesGetter());
     }
