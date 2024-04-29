@@ -27,6 +27,8 @@ public class MapMover : MonoBehaviour
     private ARWorldPositioningObjectHelper _objectPosHelper;
     private List<Datum> possiblePlaces = new List<Datum>();
     [SerializeField] public GameObject cube;
+
+     public GameObject demoObj;
      
 
     private double currlat = 32.986313;
@@ -51,13 +53,13 @@ public class MapMover : MonoBehaviour
         _cameraHelper = _arCameraManager.GetComponent<ARWorldPositioningCameraHelper>();
         _objectPosHelper = _xrOrigin.GetComponent<ARWorldPositioningObjectHelper>();
 
-        /* cube = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+             demoObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             Quaternion rot = Quaternion.LookRotation(Vector3.up, Vector3.up);
-            cube.GetComponent<Renderer>().material.color = Color.blue;
-            cube.transform.localScale = new Vector3(2, 2, 2);
+            demoObj.GetComponent<Renderer>().material.color = Color.blue;
+            demoObj.transform.localScale = new Vector3(2, 2, 2);
             Debug.Log("preparing to add object");
-            _objectPosHelper.AddOrUpdateObject(gameObject: cube, latitude: 32.98454, longitude: -96.75154, altitude: 0, rotationXYZToEUN: rot);
-            Debug.Log("added object");*/
+            _objectPosHelper.AddOrUpdateObject(gameObject: demoObj, latitude: 32.98961f, longitude: -96.7489f, altitude: 1, rotationXYZToEUN: rot);
+            Debug.Log("added object");
     }
     void doerListner()
     {
@@ -76,21 +78,21 @@ public class MapMover : MonoBehaviour
         // Quaternion rot = Quaternion.LookRotation(Vector3.up, Vector3.up);   
         // _objectPosHelper.AddOrUpdateObject(gameObject: cube, latitude: 32.98454, longitude: -96.75154, altitude: _cameraHelper.Altitude, rotationXYZToEUN: rot);
         //Debug.Log(_cameraHelper.Altitude);
-        float heading = _cameraHelper.TrueHeading;
+        //float heading = _cameraHelper.TrueHeading;
         //_compassImage.rectTransform.rotation = Quaternion.Euler(0, 0, heading);
 
         coordinatesText.text = "Latitude: " + _cameraHelper.Latitude + "\nLongitude: " + _cameraHelper.Longitude;
 
         //NEED TO ENABLE THINGS WHEN DEMOING
-        //currlat = _cameraHelper.Latitude;
-        //currlon = _cameraHelper.Longitude;
+        currlat = _cameraHelper.Latitude;
+        currlon = _cameraHelper.Longitude;
     }
 
 
     IEnumerator GetCoordinates(Action onReceived)
     {
-        Debug.LogFormat("Making a request from {0}", $"https://api.concept3d.com/wayfinding/?map=1772&v2=true&toLat={destlat}&toLng={destlon}&toLevel={destLevel}&currentLevel=2&stamp=MEnBfBYK&fromLevel={currLevel}&fromLat={currlat}&fromLng={currlon}&key=0001085cc708b9cef47080f064612ca5");
-        using (UnityWebRequest www = UnityWebRequest.Get($"https://api.concept3d.com/wayfinding/?map=1772&v2=true&toLat={destlat}&toLng={destlon}&toLevel={destLevel}&currentLevel=2&stamp=MEnBfBYK&fromLevel={currLevel}&fromLat={currlat}&fromLng={currlon}&key=0001085cc708b9cef47080f064612ca5"))
+        Debug.LogFormat("Making a request from {0}", $"https://api.concept3d.com/wayfinding/?map=1772&v2=true&toLat={destlat}&toLng={destlon}&toLevel={destLevel}&currentLevel=0&stamp=MEnBfBYK&fromLevel={currLevel}&fromLat={currlat}&fromLng={currlon}&key=0001085cc708b9cef47080f064612ca5");
+        using (UnityWebRequest www = UnityWebRequest.Get($"https://api.concept3d.com/wayfinding/?map=1772&v2=true&toLat={destlat}&toLng={destlon}&toLevel={destLevel}&currentLevel=0&stamp=MEnBfBYK&fromLevel={currLevel}&fromLat={currlat}&fromLng={currlon}&key=0001085cc708b9cef47080f064612ca5"))
         {
             yield return www.Send();
 
@@ -109,12 +111,12 @@ public class MapMover : MonoBehaviour
                 Debug.Log("Route call: Finished deserializing");
                 myDeserializedClass.fullPath.ForEach(delegate (List<double> coord)
                 {
-                    Debug.LogFormat("{0}, {1}", coord.ElementAt(0), coord.ElementAt(1));
-                    coordinates.Append(new Vector2((float)coord.ElementAt(1), (float)coord.ElementAt(0)));
+                    Debug.LogFormat("Received new coordinate {0}, {1}", coord.ElementAt(0), coord.ElementAt(1));
+                    coordinates.Add(new Vector2((float)coord.ElementAt(1), (float)coord.ElementAt(0)));
                 });
 
                 Debug.Log("finished getting coordinates");
-                Debug.Log(coordinates);
+                //Debug.Log(string.Join(", ", coordinates));
                 onReceived?.Invoke();
 
             }
@@ -122,6 +124,7 @@ public class MapMover : MonoBehaviour
     }
     void OnCoordinatesReceived()
     {
+        Debug.Log("should be placing spheres");
         placeSpheres();
     }
 
@@ -155,7 +158,7 @@ public class MapMover : MonoBehaviour
                 Debug.Log("Got text in autocomplete!");
                 json = www.downloadHandler.text;
                 Debug.Log(json);
-   
+    
                 Example myDeserializedClass = JsonConvert.DeserializeObject<Example>(json);
                 Debug.Log("this is reached too");
                 foreach (Datum d in myDeserializedClass.data)
@@ -175,19 +178,22 @@ public class MapMover : MonoBehaviour
 
     void placeSpheres()
     {
+        Debug.Log("Looping through coordinates");
+       // Debug.Log(coordinates);
         
         foreach(Vector2 coord in coordinates)
         {
-            Debug.Log("Reached here");
-            //GameObject newCube = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            //Debug.Log("Reached here");
+            GameObject newSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             Quaternion rot = Quaternion.LookRotation(Vector3.up, Vector3.up);
-            //newCube.GetComponent<Renderer>().material.color = Color.blue;
-            //newCube.transform.localScale = new Vector3(2, 2, 2);
-            //markers2.Add(newCube);
-            _objectPosHelper.AddOrUpdateObject(gameObject: cube, latitude: coord.x, longitude: coord.y, altitude: _cameraHelper.Altitude, rotationXYZToEUN: rot);
-            Debug.LogFormat("adding cube at {0}, {1}", coord.x, coord.y);
+            newSphere.GetComponent<Renderer>().material.color = Color.blue;
+            newSphere.transform.localScale = new Vector3(3, 3, 3);
+            markers2.Add(newSphere);
+            _objectPosHelper.AddOrUpdateObject(gameObject: markers2.Last(), latitude: coord.x, longitude: coord.y, altitude: 0, rotationXYZToEUN: rot);
+            Debug.LogFormat("adding sphere at {0}, {1}", coord.x, coord.y);
 
         }
+        Debug.Log("Done placing spheres");
         
     }
 }
