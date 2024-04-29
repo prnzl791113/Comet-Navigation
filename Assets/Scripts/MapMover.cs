@@ -17,7 +17,7 @@ public class MapMover : MonoBehaviour
 
     [SerializeField] public XROrigin _xrOrigin;
     [SerializeField] public UnityEngine.UI.Image _compassImage;
-    [SerializeField] private int currLevel;
+    [SerializeField] private int currLevel=1;
     [SerializeField] private TMPro.TMP_InputField inpfield;
     [SerializeField] private TMPro.TextMeshProUGUI coordinatesText;
 
@@ -46,7 +46,6 @@ public class MapMover : MonoBehaviour
         Color newColor = _compassImage.color;
         newColor.a = 0;
         _compassImage.color = newColor;
-        currLevel = currLevel != 0 ? currLevel : 0;
         coordinates = new List<Vector2>();
         sub.onClick.AddListener(doerListner);
         _cameraHelper = _arCameraManager.GetComponent<ARWorldPositioningCameraHelper>();
