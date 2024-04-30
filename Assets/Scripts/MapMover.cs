@@ -24,6 +24,7 @@ public class MapMover : MonoBehaviour
 
     private ARWorldPositioningCameraHelper _cameraHelper;
     [SerializeField] private Button sub;
+    [SerializeField] private Button exitButton;
 
     private ARWorldPositioningObjectHelper _objectPosHelper;
     private List<Datum> possiblePlaces = new List<Datum>();
@@ -38,7 +39,7 @@ public class MapMover : MonoBehaviour
 
 
     //Chnaged this coordinate to a list of double 
-    private List<Vector2> coordinates;
+    private List<List<double>> coordinates;
     List<GameObject> markers2 = new List<GameObject>();
 
     public void Start()
@@ -47,7 +48,7 @@ public class MapMover : MonoBehaviour
         Color newColor = _compassImage.color;
         newColor.a = 0;
         _compassImage.color = newColor;
-        coordinates = new List<Vector2>();
+        coordinates = new List<List<double>>();
         sub.onClick.AddListener(doerListner);
         _cameraHelper = _arCameraManager.GetComponent<ARWorldPositioningCameraHelper>();
         if (_cameraHelper == null)
@@ -57,6 +58,8 @@ public class MapMover : MonoBehaviour
         Debug.Log("preparing to add object");
 
         _objectPosHelper = _xrOrigin.GetComponent<ARWorldPositioningObjectHelper>();
+        exitButton.gameObject.SetActive(false);
+        exitButton.onClick.AddListener(destroySpheres);
 
         // GameObject demoObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         // Quaternion rot = Quaternion.LookRotation(Vector3.up, Vector3.up);
@@ -92,8 +95,17 @@ public class MapMover : MonoBehaviour
         //NEED TO ENABLE THINGS WHEN DEMOING
         currlat = _cameraHelper.Latitude;
         currlon = _cameraHelper.Longitude;
-    }
 
+    }
+    void destroySpheres()
+    {
+        foreach (GameObject sphere in markers2)
+        {
+            Destroy(sphere);
+        }
+        markers2.Clear();
+        exitButton.gameObject.SetActive(false);
+    }
 
     IEnumerator GetCoordinates(Action onReceived)
     {
@@ -118,7 +130,7 @@ public class MapMover : MonoBehaviour
                 myDeserializedClass.fullPath.ForEach(delegate (List<double> coord)
                 {
                     Debug.LogFormat("Received new coordinate {0}, {1}", coord.ElementAt(0), coord.ElementAt(1));
-                    coordinates.Add(new Vector2((float)coord.ElementAt(1), (float)coord.ElementAt(0)));
+                    coordinates.Add(new List<double> { coord.ElementAt(1), coord.ElementAt(0) });
                 });
 
 
@@ -188,37 +200,19 @@ public class MapMover : MonoBehaviour
     {
         Debug.Log("Looping through coordinates");
         // Debug.Log(coordinates);
-
-        foreach (Vector2 coord in coordinates)
+        int index = 0;
+        foreach (List<double> coord in coordinates)
         {
-            //Debug.Log("Reached here");
             GameObject newSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             Quaternion rot = Quaternion.LookRotation(Vector3.up, Vector3.up);
             newSphere.GetComponent<Renderer>().material.color = Color.blue;
-            newSphere.transform.localScale = new Vector3(1, 1, 1);
+            newSphere.transform.localScale = new Vector3(2, 2, 2);
+            _objectPosHelper.AddOrUpdateObject(gameObject: newSphere, latitude: coord[0], longitude: coord[1], altitude: 0, rotationXYZToEUN: rot);
+            Debug.LogFormat("adding sphere at {0}, {1}", coord[0], coord[1]);
             markers2.Add(newSphere);
-            //Changed altitdde to 0 and used markers2.firstor default instead of cube
-            _objectPosHelper.AddOrUpdateObject(gameObject: markers2.FirstOrDefault(), latitude: coord.x, longitude: coord.y, altitude: 0, rotationXYZToEUN: rot);
-            Debug.LogFormat("adding sphere at {0}, {1}", coord.x, coord.y);
         }
-
-        foreach (Vector2 coord in coordinates)
-        {
-            //Debug.Log("Reached here");
-            GameObject newSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            Quaternion rot = Quaternion.LookRotation(Vector3.up, Vector3.up);
-            newSphere.GetComponent<Renderer>().material.color = Color.blue;
-            newSphere.transform.localScale = new Vector3(1, 1, 1);
-            markers2.Add(newSphere);
-            //Changed altitdde to 0 and used markers2.firstor default instead of cube
-            _objectPosHelper.AddOrUpdateObject(gameObject: markers2.FirstOrDefault(), latitude: coord.x, longitude: coord.y, altitude: 0, rotationXYZToEUN: rot);
-            Debug.LogFormat("adding sphere at {0}, {1}", coord.x, coord.y);
-        }
-
-
-
+        exitButton.gameObject.SetActive(true);
         Debug.Log("Done placing spheres");
-
     }
 }
 

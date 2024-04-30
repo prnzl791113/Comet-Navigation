@@ -551,7 +551,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: Exit
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1407,6 +1407,7 @@ MonoBehaviour:
   inpfield: {fileID: 665235545}
   coordinatesText: {fileID: 1308547618}
   sub: {fileID: 712228098}
+  exitButton: {fileID: 906534022}
   cube: {fileID: 6280089485296631662, guid: 78210022c89f5457297e0ca36ac31dab, type: 3}
 --- !u!850595691 &1147300343
 LightingSettings:
