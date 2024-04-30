@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine.UI;
+using Unity.VisualScripting.FullSerializer;
 
 public class MapMover : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class MapMover : MonoBehaviour
 
     [SerializeField] public XROrigin _xrOrigin;
     [SerializeField] public UnityEngine.UI.Image _compassImage;
-    [SerializeField] private int currLevel=1;
+    [SerializeField] private int currLevel = 1;
     [SerializeField] private TMPro.TMP_InputField inpfield;
     [SerializeField] private TMPro.TextMeshProUGUI coordinatesText;
 
@@ -28,9 +29,6 @@ public class MapMover : MonoBehaviour
     private List<Datum> possiblePlaces = new List<Datum>();
     [SerializeField] public GameObject cube;
 
-     public GameObject demoObj;
-     
-
     private double currlat = 32.986313;
     private double currlon = -96.748009;
     private double destlat;
@@ -39,6 +37,7 @@ public class MapMover : MonoBehaviour
     private string json;
 
 
+    //Chnaged this coordinate to a list of double 
     private List<Vector2> coordinates;
     List<GameObject> markers2 = new List<GameObject>();
 
@@ -51,15 +50,22 @@ public class MapMover : MonoBehaviour
         coordinates = new List<Vector2>();
         sub.onClick.AddListener(doerListner);
         _cameraHelper = _arCameraManager.GetComponent<ARWorldPositioningCameraHelper>();
+        if (_cameraHelper == null)
+        {
+            Debug.Log("Camera helper is null");
+        }
+        Debug.Log("preparing to add object");
+
         _objectPosHelper = _xrOrigin.GetComponent<ARWorldPositioningObjectHelper>();
 
-             demoObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            Quaternion rot = Quaternion.LookRotation(Vector3.up, Vector3.up);
-            demoObj.GetComponent<Renderer>().material.color = Color.blue;
-            demoObj.transform.localScale = new Vector3(2, 2, 2);
-            Debug.Log("preparing to add object");
-            _objectPosHelper.AddOrUpdateObject(gameObject: demoObj, latitude: 32.98961f, longitude: -96.7489f, altitude: 1, rotationXYZToEUN: rot);
-            Debug.Log("added object");
+        // GameObject demoObj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        // Quaternion rot = Quaternion.LookRotation(Vector3.up, Vector3.up);
+        // demoObj.GetComponent<Renderer>().material.color = Color.blue;
+        // demoObj.transform.localScale = new Vector3(2, 2, 2);
+        // Debug.Log("preparing to add object");
+        // _objectPosHelper.AddOrUpdateObject(gameObject: demoObj, latitude: _cameraHelper.Latitude, longitude: _cameraHelper.Longitude, altitude: _cameraHelper.Altitude, rotationXYZToEUN: rot);
+        // Debug.Log("added object");
+
     }
     void doerListner()
     {
@@ -115,6 +121,7 @@ public class MapMover : MonoBehaviour
                     coordinates.Add(new Vector2((float)coord.ElementAt(1), (float)coord.ElementAt(0)));
                 });
 
+
                 Debug.Log("finished getting coordinates");
                 //Debug.Log(string.Join(", ", coordinates));
                 onReceived?.Invoke();
@@ -136,7 +143,7 @@ public class MapMover : MonoBehaviour
         Debug.Log("The text in the textfield is" + str[0]);
         if (str.Length == 1)
         {
-             requrl = $"https://api.concept3d.com/search?map=1772&q={str[0]}&ppage=5&key=0001085cc708b9cef47080f064612ca5";
+            requrl = $"https://api.concept3d.com/search?map=1772&q={str[0]}&ppage=5&key=0001085cc708b9cef47080f064612ca5";
 
         }
         else
@@ -144,7 +151,7 @@ public class MapMover : MonoBehaviour
             requrl = $"https://api.concept3d.com/search?map=1772&q={str[0]}%20{str[1]}&ppage=5&key=0001085cc708b9cef47080f064612ca5";
 
         }
-        Debug.Log(requrl+ " this is what the requrl become");
+        Debug.Log(requrl + " this is what the requrl become");
         using (UnityWebRequest www = UnityWebRequest.Get(requrl))
         {
             yield return www.Send();
@@ -155,10 +162,11 @@ public class MapMover : MonoBehaviour
             }
             else
             {
+
                 Debug.Log("Got text in autocomplete!");
                 json = www.downloadHandler.text;
                 Debug.Log(json);
-    
+
                 Example myDeserializedClass = JsonConvert.DeserializeObject<Example>(json);
                 Debug.Log("this is reached too");
                 foreach (Datum d in myDeserializedClass.data)
@@ -179,51 +187,67 @@ public class MapMover : MonoBehaviour
     void placeSpheres()
     {
         Debug.Log("Looping through coordinates");
-       // Debug.Log(coordinates);
-        
-        foreach(Vector2 coord in coordinates)
+        // Debug.Log(coordinates);
+
+        foreach (Vector2 coord in coordinates)
         {
             //Debug.Log("Reached here");
             GameObject newSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             Quaternion rot = Quaternion.LookRotation(Vector3.up, Vector3.up);
             newSphere.GetComponent<Renderer>().material.color = Color.blue;
-            newSphere.transform.localScale = new Vector3(3, 3, 3);
+            newSphere.transform.localScale = new Vector3(1, 1, 1);
             markers2.Add(newSphere);
-            _objectPosHelper.AddOrUpdateObject(gameObject: markers2.Last(), latitude: coord.x, longitude: coord.y, altitude: 0, rotationXYZToEUN: rot);
+            //Changed altitdde to 0 and used markers2.firstor default instead of cube
+            _objectPosHelper.AddOrUpdateObject(gameObject: markers2.FirstOrDefault(), latitude: coord.x, longitude: coord.y, altitude: 0, rotationXYZToEUN: rot);
             Debug.LogFormat("adding sphere at {0}, {1}", coord.x, coord.y);
-
         }
+
+        foreach (Vector2 coord in coordinates)
+        {
+            //Debug.Log("Reached here");
+            GameObject newSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            Quaternion rot = Quaternion.LookRotation(Vector3.up, Vector3.up);
+            newSphere.GetComponent<Renderer>().material.color = Color.blue;
+            newSphere.transform.localScale = new Vector3(1, 1, 1);
+            markers2.Add(newSphere);
+            //Changed altitdde to 0 and used markers2.firstor default instead of cube
+            _objectPosHelper.AddOrUpdateObject(gameObject: markers2.FirstOrDefault(), latitude: coord.x, longitude: coord.y, altitude: 0, rotationXYZToEUN: rot);
+            Debug.LogFormat("adding sphere at {0}, {1}", coord.x, coord.y);
+        }
+
+
+
         Debug.Log("Done placing spheres");
-        
+
     }
 }
 
 public class Root
-    {
-        public List<List<double>> fullPath { get; set; }
-        public string formattedDuration { get; set; }
-        public double distance { get; set; }
-        public List<Route> route { get; set; }
-        public object parking { get; set; }
-        public string status { get; set; }
-        public string stamp { get; set; }
-        public List<List<double>> bbox { get; set; }
-    }
+{
+    public List<List<double>> fullPath { get; set; }
+    public string formattedDuration { get; set; }
+    public double distance { get; set; }
+    public List<Route> route { get; set; }
+    public object parking { get; set; }
+    public string status { get; set; }
+    public string stamp { get; set; }
+    public List<List<double>> bbox { get; set; }
+}
 
-    public class Route
-    {
-        public string action { get; set; }
-        public double angle { get; set; }
-        public string code { get; set; }
-        public List<List<double>> bbox { get; set; }
-        public double distance { get; set; }
-        public object level { get; set; }
-        public List<List<double>> route { get; set; }
-        public List<List<double>> routeOther { get; set; }
-        public string type { get; set; }
-        public int? fromLevel { get; set; }
-        public int? toLevel { get; set; }
-    }
+public class Route
+{
+    public string action { get; set; }
+    public double angle { get; set; }
+    public string code { get; set; }
+    public List<List<double>> bbox { get; set; }
+    public double distance { get; set; }
+    public object level { get; set; }
+    public List<List<double>> route { get; set; }
+    public List<List<double>> routeOther { get; set; }
+    public string type { get; set; }
+    public int? fromLevel { get; set; }
+    public int? toLevel { get; set; }
+}
 
 
 public class Media
